@@ -7,19 +7,16 @@ public enum SeparatorEnum {
     Comma("čárka"),
     Colon("dvojtečka"),
     Semicolon("středník"),
-    White_char("bílý znak");
+    White_char("bílý znak"),
+    Separator_None("");
     
     private final String separator;
     private SeparatorEnum(String separator){
         this.separator = separator;
     }
     
-    public SeparatorEnum getSeparator(String separator){
-        for (SeparatorEnum sep : values()) {
-            if(separator.equalsIgnoreCase(sep.separator))
-                return sep;
-        }
-        return null; //TODO Maybe enum Separator_None
+    public String getSeparator(){
+       return separator;
     }
     
     @Override
