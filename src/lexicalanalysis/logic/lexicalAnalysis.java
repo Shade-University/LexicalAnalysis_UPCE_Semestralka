@@ -22,7 +22,7 @@ public class lexicalAnalysis {
 
     private final static Integer MAX_LENGTH_IDENTIFIER = 32;
 
-    private final FileReaderImpl reader;
+    private final ReaderInterface reader; //Interface pro redukci funkcí a snadnější výměny readeru
     private final ArrayList<TokenAbstract> tokens;
     private final StringBuffer identifier;
     private TokenEnum status;
@@ -108,5 +108,8 @@ public class lexicalAnalysis {
             System.out.println(token);
         }
     }
+    public ArrayList<TokenAbstract> getList(){
+        return tokens;
+    } //List potřebuju kvůli testům
 
 }
