@@ -25,10 +25,12 @@ import org.junit.Assert;
  *
  * @author user
  */
-public class lexicalAnalysisTestClass {
-    private String dirPath;
+public class lexicalAnalysisTest {
 
-    public lexicalAnalysisTestClass() {
+    private String dirPath;
+    private lexicalAnalysis instance;
+
+    public lexicalAnalysisTest() {
     }
 
     @BeforeClass
@@ -55,7 +57,7 @@ public class lexicalAnalysisTestClass {
      */
     @Test
     public void testSeparators() throws FileNotFoundException, IOException {
-        lexicalAnalysis instance = new lexicalAnalysis(dirPath + "testSeparators.txt");
+        instance = new lexicalAnalysis(dirPath + "testSeparators.txt");
         ArrayList<TokenAbstract> expected = new ArrayList(Arrays.asList(
                 new SeparatorToken(SeparatorEnum.Equals),
                 new SeparatorToken(SeparatorEnum.Comma),
@@ -71,7 +73,7 @@ public class lexicalAnalysisTestClass {
 
     @Test
     public void testMultipleWhiteChars() throws FileNotFoundException, IOException {
-        lexicalAnalysis instance = new lexicalAnalysis(dirPath + "testMultipleWhiteChars.txt");
+        instance = new lexicalAnalysis(dirPath + "testMultipleWhiteChars.txt");
         ArrayList<TokenAbstract> expected = new ArrayList(Arrays.asList(
                 new SeparatorToken(SeparatorEnum.Equals),
                 new SeparatorToken(SeparatorEnum.Equals),
@@ -90,7 +92,7 @@ public class lexicalAnalysisTestClass {
 
     @Test
     public void testKeywords() throws FileNotFoundException, IOException {
-        lexicalAnalysis instance = new lexicalAnalysis(dirPath + "testKeywords.txt");
+        instance = new lexicalAnalysis(dirPath + "testKeywords.txt");
         ArrayList<TokenAbstract> expected = new ArrayList(Arrays.asList(
                 new KeyToken(KeyWordEnum.Begin),
                 new SeparatorToken(SeparatorEnum.White_char),
@@ -108,15 +110,15 @@ public class lexicalAnalysisTestClass {
                 new SeparatorToken(SeparatorEnum.White_char),
                 new KeyToken(KeyWordEnum.Return)
         ));
-                
+
         instance.scan();
 
         assertThat(instance.getList(), is(expected));
     }
-    
-     @Test
+
+    @Test
     public void testNumbers() throws FileNotFoundException, IOException {
-        lexicalAnalysis instance = new lexicalAnalysis(dirPath + "testDecValues.txt");
+        instance = new lexicalAnalysis(dirPath + "testDecValues.txt");
         ArrayList<TokenAbstract> expected = new ArrayList(Arrays.asList(
                 new NumberToken(10),
                 new SeparatorToken(SeparatorEnum.White_char),
@@ -125,71 +127,69 @@ public class lexicalAnalysisTestClass {
                 new NumberToken(32),
                 new SeparatorToken(SeparatorEnum.Semicolon),
                 new SeparatorToken(SeparatorEnum.White_char),
-                new IdentifierToken("10a5abc")      
+                new IdentifierToken("10a5abc")
         ));
-                
+
         instance.scan();
 
         assertThat(instance.getList(), is(expected));
     }
-    
+
     @Test
     public void testHexNumbers() throws FileNotFoundException, IOException {
-        lexicalAnalysis instance = new lexicalAnalysis(dirPath + "testHexValues.txt");
+        instance = new lexicalAnalysis(dirPath + "testHexValues.txt");
         ArrayList<TokenAbstract> expected = new ArrayList(Arrays.asList(
                 new NumberToken(8),
                 new SeparatorToken(SeparatorEnum.White_char),
                 new NumberToken(10)
         ));
-                
+
         instance.scan();
 
         assertThat(instance.getList(), is(expected));
     }
-    
+
     @Test
     public void testLongIdentifier() throws FileNotFoundException, IOException {
-        lexicalAnalysis instance = new lexicalAnalysis(dirPath + "testLongIdentifier.txt");
+        instance = new lexicalAnalysis(dirPath + "testLongIdentifier.txt");
         ArrayList<TokenAbstract> expected = new ArrayList(Arrays.asList(
-               new IdentifierToken("abcdefghijklmnopqrstuvwxyzabcdef")
+                new IdentifierToken("abcdefghijklmnopqrstuvwxyzabcdef")
         ));
-                
+
         instance.scan();
 
         assertThat(instance.getList(), is(expected));
     }
-    
+
     @Test
     public void testComplete() throws FileNotFoundException, IOException {
-        lexicalAnalysis instance = new lexicalAnalysis(dirPath + "testComplete.txt");
+        instance = new lexicalAnalysis(dirPath + "testComplete.txt");
         ArrayList<TokenAbstract> expected = new ArrayList(Arrays.asList(
-               new KeyToken(KeyWordEnum.Begin),
-               new SeparatorToken(SeparatorEnum.White_char),
-               new IdentifierToken("a"),
-               new SeparatorToken(SeparatorEnum.Comma),
-               new IdentifierToken("b"),
-               new SeparatorToken(SeparatorEnum.Equals),
-               new NumberToken(100),
-               new SeparatorToken(SeparatorEnum.Semicolon),
-               new SeparatorToken(SeparatorEnum.White_char),
-               new KeyToken(KeyWordEnum.If),
-               new SeparatorToken(SeparatorEnum.Colon),
-               new SeparatorToken(SeparatorEnum.White_char),
-               new IdentifierToken("output"),
-               new SeparatorToken(SeparatorEnum.Equals),
-               new IdentifierToken("reallylooooooooooooooooooooooong"),
-               new SeparatorToken(SeparatorEnum.Semicolon),
-               new SeparatorToken(SeparatorEnum.White_char),
-               new NumberToken(255),
-               new SeparatorToken(SeparatorEnum.White_char),
-               new NumberToken(24),
-               new SeparatorToken(SeparatorEnum.White_char),
-               new KeyToken(KeyWordEnum.End),
-               new SeparatorToken(SeparatorEnum.Semicolon)
-               
-               
+                new KeyToken(KeyWordEnum.Begin),
+                new SeparatorToken(SeparatorEnum.White_char),
+                new IdentifierToken("a"),
+                new SeparatorToken(SeparatorEnum.Comma),
+                new IdentifierToken("b"),
+                new SeparatorToken(SeparatorEnum.Equals),
+                new NumberToken(100),
+                new SeparatorToken(SeparatorEnum.Semicolon),
+                new SeparatorToken(SeparatorEnum.White_char),
+                new KeyToken(KeyWordEnum.If),
+                new SeparatorToken(SeparatorEnum.Colon),
+                new SeparatorToken(SeparatorEnum.White_char),
+                new IdentifierToken("output"),
+                new SeparatorToken(SeparatorEnum.Equals),
+                new IdentifierToken("reallylooooooooooooooooooooooong"),
+                new SeparatorToken(SeparatorEnum.Semicolon),
+                new SeparatorToken(SeparatorEnum.White_char),
+                new NumberToken(255),
+                new SeparatorToken(SeparatorEnum.White_char),
+                new NumberToken(24),
+                new SeparatorToken(SeparatorEnum.White_char),
+                new KeyToken(KeyWordEnum.End),
+                new SeparatorToken(SeparatorEnum.Semicolon)
         ));
-                
+
         instance.scan();
 
         assertThat(instance.getList(), is(expected));

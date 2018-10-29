@@ -20,6 +20,7 @@ public class NumberToken extends TokenAbstract {
         int hash = 5;
         return hash;
     }
+
     //kvůli testům
     @Override
     public boolean equals(Object obj) {

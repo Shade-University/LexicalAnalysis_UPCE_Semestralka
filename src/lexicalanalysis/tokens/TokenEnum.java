@@ -6,16 +6,16 @@ public enum TokenEnum {
     Separator("Separátor"),
     Identifier("Identifikátor"),
     NONE("");
-    
-    
+
     private final String name;
-    private TokenEnum(String name){
-        this.name = name;      
+
+    private TokenEnum(String name) {
+        this.name = name;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("Token{%s}", name);
     }
-    
+
 }

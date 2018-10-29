@@ -32,7 +32,7 @@ public class FileReaderImpl implements ReaderInterface {
 
         StringBuffer buff = new StringBuffer();
         int c = readChar();
-        
+
         while (c != -1) {
             buff.append(c);
         }

@@ -1,22 +1,23 @@
 package lexicalanalysis.tokens;
 
 public class SeparatorToken extends TokenAbstract {
-    
+
     private final SeparatorEnum separator;
 
     public SeparatorToken(SeparatorEnum separator) {
         super(TokenEnum.Separator);
         this.separator = separator;
     }
-    
-    public SeparatorEnum getSeparator(){
+
+    public SeparatorEnum getSeparator() {
         return separator;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("SeparatorToken{%s}", separator);
     }
+
     //kvůli testům
     @Override
     public int hashCode() {
@@ -41,5 +42,5 @@ public class SeparatorToken extends TokenAbstract {
         }
         return true;
     }
-    
+
 }

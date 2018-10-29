@@ -1,20 +1,20 @@
 package lexicalanalysis.tokens;
 
 public class KeyToken extends TokenAbstract {
-    
+
     private final KeyWordEnum keyWord;
 
     public KeyToken(KeyWordEnum keyWord) {
         super(TokenEnum.Keyword);
         this.keyWord = keyWord;
     }
-    
-    public KeyWordEnum getKeyword(){
+
+    public KeyWordEnum getKeyword() {
         return keyWord;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("KeyToken{klicoveSlovo=%s}", keyWord);
     }
 
@@ -23,6 +23,7 @@ public class KeyToken extends TokenAbstract {
         int hash = 3;
         return hash;
     }
+
     //kvůli testům
     @Override
     public boolean equals(Object obj) {
@@ -41,7 +42,5 @@ public class KeyToken extends TokenAbstract {
         }
         return true;
     }
-    
-    
-    
+
 }

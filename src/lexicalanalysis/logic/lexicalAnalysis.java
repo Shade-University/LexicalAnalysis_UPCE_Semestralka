@@ -44,7 +44,7 @@ public class lexicalAnalysis {
         int c;
         while ((c = reader.readChar()) != -1) {
             char character = (char) c;
-            //isHex = false;
+
             statusNow = getStatus(character);
 
             if (statusNow == TokenEnum.Identifier || statusNow == TokenEnum.Number) {
@@ -60,7 +60,7 @@ public class lexicalAnalysis {
 
                     if (status == TokenEnum.Number && identifier.length() == 1 && character == 'x') {
                         numberType = NumberTypeEnum.HEX;
-                    } //Pokud to bylo číslo a jeho druhý znak je x, jedná se o hex číslo
+                    } //Pokud to bylo číslo a momentální (druhý) znak je x, jedná se o hex číslo
                     else if (status == TokenEnum.Number && statusNow == TokenEnum.Identifier) {
                         status = TokenEnum.Identifier;
                     } //Pokud bylo číslo, ale našli jsme v něm písmeno, jedná se o identifikátor
@@ -73,11 +73,11 @@ public class lexicalAnalysis {
                     }
                     KeyWordEnum key = getKeyword(realIdentifier);
                     if (key != null) {
-                        tokens.add(new KeyToken(key)); //Skončí -1 ?
+                        tokens.add(new KeyToken(key));
                     } else {
 
                         tokens.add(new IdentifierToken(realIdentifier));
-                    }
+                    } //Pokud jsme zpracovávali identifikátor a nebylo to hex číslo
                 } else if (numberType == NumberTypeEnum.HEX) {
                     String hexValue = identifier.toString().substring(2, identifier.length());
                     Integer value = Integer.parseInt(hexValue, 16);
@@ -105,7 +105,7 @@ public class lexicalAnalysis {
             statusNow = TokenEnum.Separator;
         } else if (c >= '0' && c <= '9') {
             statusNow = TokenEnum.Number;
-        } else if (c >= 'a' && c <= 'z') {
+        } else if (c >= 'a' && c <= 'z') { //Tady by možná bylo lepší else a zvládalo by to i ostatní znaky jako @
             statusNow = TokenEnum.Identifier;
         }
         return statusNow;

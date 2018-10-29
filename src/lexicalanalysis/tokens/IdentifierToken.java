@@ -3,15 +3,15 @@ package lexicalanalysis.tokens;
 import java.util.Objects;
 
 public class IdentifierToken extends TokenAbstract {
-    
+
     private final String identifier;
 
     public IdentifierToken(String identifier) {
         super(TokenEnum.Identifier);
         this.identifier = identifier;
     }
-    
-    public String getIdentifier(){
+
+    public String getIdentifier() {
         return identifier;
     }
 
@@ -20,6 +20,7 @@ public class IdentifierToken extends TokenAbstract {
         int hash = 5;
         return hash;
     }
+
     //kvůli testům
     @Override
     public boolean equals(Object obj) {
@@ -38,9 +39,9 @@ public class IdentifierToken extends TokenAbstract {
         }
         return true;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("IdentifierToken{%s}", identifier);
     }
 }
