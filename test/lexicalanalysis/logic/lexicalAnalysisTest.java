@@ -1,6 +1,7 @@
 package lexicalanalysis.logic;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import lexicalanalysis.tokens.IdentifierToken;
@@ -51,9 +52,9 @@ public class lexicalAnalysisTest {
      * @throws java.io.FileNotFoundException
      */
     @Test
-    public void testSeparators() throws FileNotFoundException {
+    public void testSeparators() throws FileNotFoundException, IOException {
         lexicalAnalysis instance = new lexicalAnalysis("C:\\Users\\user\\Documents\\NetBeansProjects\\LexicalAnalysis\\test\\testfiles\\testSeparators.txt");
-        ArrayList<TokenAbstract> expected = new ArrayList<>(Arrays.asList(
+        ArrayList<TokenAbstract> expected = new ArrayList(Arrays.asList(
                 new SeparatorToken(SeparatorEnum.Equals),
                 new SeparatorToken(SeparatorEnum.Comma),
                 new SeparatorToken(SeparatorEnum.Colon),
@@ -67,9 +68,9 @@ public class lexicalAnalysisTest {
     }
 
     @Test
-    public void testMultipleWhiteChars() throws FileNotFoundException {
+    public void testMultipleWhiteChars() throws FileNotFoundException, IOException {
         lexicalAnalysis instance = new lexicalAnalysis("C:\\Users\\user\\Documents\\NetBeansProjects\\LexicalAnalysis\\test\\testfiles\\testMultipleWhiteChars.txt");
-        ArrayList<TokenAbstract> expected = new ArrayList<TokenAbstract>(Arrays.asList(
+        ArrayList<TokenAbstract> expected = new ArrayList(Arrays.asList(
                 new SeparatorToken(SeparatorEnum.Equals),
                 new SeparatorToken(SeparatorEnum.Equals),
                 new SeparatorToken(SeparatorEnum.White_char),
@@ -86,9 +87,9 @@ public class lexicalAnalysisTest {
     }
 
     @Test
-    public void testKeywords() throws FileNotFoundException {
+    public void testKeywords() throws FileNotFoundException, IOException {
         lexicalAnalysis instance = new lexicalAnalysis("C:\\Users\\user\\Documents\\NetBeansProjects\\LexicalAnalysis\\test\\testfiles\\testKeywords.txt");
-        ArrayList<TokenAbstract> expected = new ArrayList<TokenAbstract>(Arrays.asList(
+        ArrayList<TokenAbstract> expected = new ArrayList(Arrays.asList(
                 new KeyToken(KeyWordEnum.Begin),
                 new SeparatorToken(SeparatorEnum.White_char),
                 new KeyToken(KeyWordEnum.End),
@@ -112,9 +113,9 @@ public class lexicalAnalysisTest {
     }
     
      @Test
-    public void testNumbers() throws FileNotFoundException {
+    public void testNumbers() throws FileNotFoundException, IOException {
         lexicalAnalysis instance = new lexicalAnalysis("C:\\Users\\user\\Documents\\NetBeansProjects\\LexicalAnalysis\\test\\testfiles\\testDecValues.txt");
-        ArrayList<TokenAbstract> expected = new ArrayList<TokenAbstract>(Arrays.asList(
+        ArrayList<TokenAbstract> expected = new ArrayList(Arrays.asList(
                 new NumberToken(10),
                 new SeparatorToken(SeparatorEnum.White_char),
                 new IdentifierToken("a"),
@@ -131,9 +132,9 @@ public class lexicalAnalysisTest {
     }
     
     @Test
-    public void testHexNumbers() throws FileNotFoundException {
+    public void testHexNumbers() throws FileNotFoundException, IOException {
         lexicalAnalysis instance = new lexicalAnalysis("C:\\Users\\user\\Documents\\NetBeansProjects\\LexicalAnalysis\\test\\testfiles\\testHexValues.txt");
-        ArrayList<TokenAbstract> expected = new ArrayList<TokenAbstract>(Arrays.asList(
+        ArrayList<TokenAbstract> expected = new ArrayList(Arrays.asList(
                 new NumberToken(8),
                 new SeparatorToken(SeparatorEnum.White_char),
                 new NumberToken(10)
@@ -145,9 +146,9 @@ public class lexicalAnalysisTest {
     }
     
     @Test
-    public void testLongIdentifier() throws FileNotFoundException {
+    public void testLongIdentifier() throws FileNotFoundException, IOException {
         lexicalAnalysis instance = new lexicalAnalysis("C:\\Users\\user\\Documents\\NetBeansProjects\\LexicalAnalysis\\test\\testfiles\\testLongIdentifier.txt");
-        ArrayList<TokenAbstract> expected = new ArrayList<TokenAbstract>(Arrays.asList(
+        ArrayList<TokenAbstract> expected = new ArrayList(Arrays.asList(
                new IdentifierToken("abcdefghijklmnopqrstuvwxyzabcdef")
         ));
                 
@@ -157,9 +158,9 @@ public class lexicalAnalysisTest {
     }
     
     @Test
-    public void testComplete() throws FileNotFoundException {
+    public void testComplete() throws FileNotFoundException, IOException {
         lexicalAnalysis instance = new lexicalAnalysis("C:\\Users\\user\\Documents\\NetBeansProjects\\LexicalAnalysis\\test\\testfiles\\testComplete.txt");
-        ArrayList<TokenAbstract> expected = new ArrayList<TokenAbstract>(Arrays.asList(
+        ArrayList<TokenAbstract> expected = new ArrayList(Arrays.asList(
                new KeyToken(KeyWordEnum.Begin),
                new SeparatorToken(SeparatorEnum.White_char),
                new IdentifierToken("a"),

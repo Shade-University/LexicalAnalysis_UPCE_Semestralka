@@ -1,9 +1,6 @@
 package lexicalanalysis;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import lexicalanalysis.logic.lexicalAnalysis;
 
