@@ -3,12 +3,11 @@ package lexicalanalysis.logic;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import lexicalanalysis.tokens.IdentifierToken;
 import lexicalanalysis.tokens.KeyToken;
 import lexicalanalysis.tokens.KeyWordEnum;
 import lexicalanalysis.tokens.NumberToken;
+import lexicalanalysis.tokens.NumberTypeEnum;
 import lexicalanalysis.tokens.SeparatorEnum;
 import lexicalanalysis.tokens.SeparatorToken;
 import lexicalanalysis.tokens.TokenAbstract;
@@ -23,10 +22,13 @@ public class lexicalAnalysis {
     private final static Integer MAX_LENGTH_IDENTIFIER = 32;
 
     private final ReaderInterface reader; //Interface pro redukci funkcí a snadnější výměny readeru
-    private final ArrayList<TokenAbstract> tokens;
-    private final StringBuffer identifier;
+    private final ArrayList<TokenAbstract> tokens; //Možná List interface na redukci funkcí ?
+    private final StringBuffer identifier; //Stringbuffer pro časté opakování přidávání stringu
     private TokenEnum status;
-    private Boolean isMultipleWhiteChars = false;
+    ///////////
+    private Boolean isMultipleWhiteChars;
+    private TokenEnum statusNow;
+    private NumberTypeEnum numberType;
 
     public lexicalAnalysis(String path) throws FileNotFoundException {
         reader = new FileReaderImpl(path);
@@ -34,39 +36,66 @@ public class lexicalAnalysis {
         identifier = new StringBuffer();
     }
 
-    public void scan() {
-        try {
-            int c;
-            while ((c = reader.readChar()) != -1) {
-                char character = (char) c;
+    public void scan() throws IOException {
+        status = TokenEnum.NONE;
+        isMultipleWhiteChars = false;
+        numberType = NumberTypeEnum.DEC;
 
-                TokenEnum statusNow = getStatus(character);
+        int c;
+        while ((c = reader.readChar()) != -1) {
+            char character = (char) c;
+            //isHex = false;
+            statusNow = getStatus(character);
 
-                if (statusNow == TokenEnum.Separator && status == TokenEnum.Identifier) {
-                    KeyWordEnum key = KeyWordEnum.getKeyword(identifier.toString());
-                    if (key != null) {
-                        tokens.add(new KeyToken(key));
-                    } else {
-                        tokens.add(new IdentifierToken(identifier.toString()));
+            if (statusNow == TokenEnum.Identifier || statusNow == TokenEnum.Number) {
+                isMultipleWhiteChars = false;
+                status = statusNow;
+                numberType = NumberTypeEnum.DEC;
+
+                while (statusNow == TokenEnum.Identifier || statusNow == TokenEnum.Number) {
+                    identifier.append(character);
+                    c = reader.readChar();
+                    character = (char) c;
+                    statusNow = getStatus(character);
+
+                    if (status == TokenEnum.Number && identifier.length() == 1 && character == 'x') {
+                        numberType = NumberTypeEnum.HEX;
+                    } //Pokud to bylo číslo a jeho druhý znak je x, jedná se o hex číslo
+                    else if (status == TokenEnum.Number && statusNow == TokenEnum.Identifier) {
+                        status = TokenEnum.Identifier;
+                    } //Pokud bylo číslo, ale našli jsme v něm písmeno, jedná se o identifikátor
+                }
+
+                if (status == TokenEnum.Identifier && numberType != NumberTypeEnum.HEX) {
+                    String realIdentifier = identifier.toString();
+                    if (identifier.length() > MAX_LENGTH_IDENTIFIER) {
+                        realIdentifier = realIdentifier.substring(0, MAX_LENGTH_IDENTIFIER);
                     }
-                    identifier.setLength(0);
-                } else if(statusNow == TokenEnum.Separator && status == TokenEnum.Number){
+                    KeyWordEnum key = getKeyword(realIdentifier);
+                    if (key != null) {
+                        tokens.add(new KeyToken(key)); //Skončí -1 ?
+                    } else {
+
+                        tokens.add(new IdentifierToken(realIdentifier));
+                    }
+                } else if (numberType == NumberTypeEnum.HEX) {
+                    String hexValue = identifier.toString().substring(2, identifier.length());
+                    Integer value = Integer.parseInt(hexValue, 16);
+                    tokens.add(new NumberToken(value));
+                } else if (status == TokenEnum.Number) {
                     Integer value = Integer.parseInt(identifier.toString());
                     tokens.add(new NumberToken(value));
-                    identifier.setLength(0);
                 }
-                if (statusNow == TokenEnum.Separator) {
-                    handleSeparator(character);
-                } else if (statusNow == TokenEnum.Identifier || statusNow == TokenEnum.Number) {
-                    identifier.append(character);
-                    isMultipleWhiteChars = false;
-                }
-                status = statusNow;
+                identifier.setLength(0);
             }
-        } catch (IOException ex) {
-            Logger.getLogger(lexicalAnalysis.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
+            if (statusNow == TokenEnum.Separator) {
+                SeparatorEnum separator = getSeparator(character);
+                if (separator != null) {
+                    tokens.add(new SeparatorToken(separator));
+                }
+            }
+        }
     }
 
     private TokenEnum getStatus(char c) {
@@ -74,33 +103,44 @@ public class lexicalAnalysis {
         if (c == '=' || c == ':' || c == ';' || c == ','
                 || c == '\n' || c == '\t' || c == ' ' || c == '\r') {
             statusNow = TokenEnum.Separator;
-        } else if(c >= '0' && c <= '9') {      
+        } else if (c >= '0' && c <= '9') {
             statusNow = TokenEnum.Number;
-        } else {
+        } else if (c >= 'a' && c <= 'z') {
             statusNow = TokenEnum.Identifier;
         }
-        return statusNow; //TODO Hex number
+        return statusNow;
 
     }
 
-    private void handleSeparator(char character) {
+    private KeyWordEnum getKeyword(String word) {
+        for (KeyWordEnum value : KeyWordEnum.values()) {
+            if (word.equals(value.getKey())) {
+                return value;
+            }
+        }
+        return null;
+    }
 
+    private SeparatorEnum getSeparator(char character) {
+
+        SeparatorEnum separator = null;
         if (character == '\n' || character == '\t' || character == ' ' || character == '\r') {
             if (!isMultipleWhiteChars) {
-                tokens.add(new SeparatorToken(SeparatorEnum.White_char));
                 isMultipleWhiteChars = true;
+                separator = SeparatorEnum.White_char;
             }
-            return;//Přeskočí zbytek metody
+            return separator; //Aby metoda nepokračovala a nenastavil se isMultipleChars na false
         } else if (character == '=') {
-            tokens.add(new SeparatorToken(SeparatorEnum.Equals));
+            separator = SeparatorEnum.Equals;
         } else if (character == ':') {
-            tokens.add(new SeparatorToken(SeparatorEnum.Colon));
+            separator = SeparatorEnum.Colon;
         } else if (character == ';') {
-            tokens.add(new SeparatorToken(SeparatorEnum.Semicolon));
+            separator = SeparatorEnum.Semicolon;
         } else if (character == ',') {
-            tokens.add(new SeparatorToken(SeparatorEnum.Comma));
+            separator = SeparatorEnum.Comma;
         }
-
+        isMultipleWhiteChars = false;
+        return separator;
     }
 
     public void showTokens() {
@@ -108,7 +148,8 @@ public class lexicalAnalysis {
             System.out.println(token);
         }
     }
-    public ArrayList<TokenAbstract> getList(){
+
+    public ArrayList<TokenAbstract> getList() {
         return tokens;
     } //List potřebuju kvůli testům
 

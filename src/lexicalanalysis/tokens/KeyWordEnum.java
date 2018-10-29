@@ -20,14 +20,14 @@ public enum KeyWordEnum {
         return key;
     }
     
-    public static KeyWordEnum getKeyword(String key){
+    /*public static KeyWordEnum getKeyword(String key){
         for (KeyWordEnum value : values()) {
             if(key.equals(value.getKey()))
                 return value;
         }
-        return null; //Maybe Key_none
+        return null; //Možná vytvořit Key_none ?
         
-    }
+    } Nakonec tato metoda přesunuta do lexicalAnalysis*/
     
     @Override
     public String toString(){

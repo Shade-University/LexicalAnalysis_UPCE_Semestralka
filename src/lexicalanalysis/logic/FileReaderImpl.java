@@ -20,7 +20,7 @@ public class FileReaderImpl implements ReaderInterface {
     @Override
     public Integer readChar() throws IOException {
         return br.read();
-    }
+    } //Nevrací char kvůli -1
 
     @Override
     public String readLine() throws IOException {

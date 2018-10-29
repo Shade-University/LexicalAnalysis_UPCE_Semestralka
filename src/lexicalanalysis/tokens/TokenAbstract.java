@@ -11,8 +11,19 @@ public abstract class TokenAbstract {
     public TokenEnum getEnum(){
         return tokenEnum;
     }
+    
+    
+    @Override
+    public String toString(){
+        return String.format("Token{Enum=%s}", tokenEnum);
+    }
 
-    //Kvůli testům
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -29,12 +40,6 @@ public abstract class TokenAbstract {
             return false;
         }
         return true;
-    }
-    
-    
-    @Override
-    public String toString(){
-        return String.format("Token{Enum=%s}", tokenEnum);
     }
     
 }
