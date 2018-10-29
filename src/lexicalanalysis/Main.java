@@ -14,7 +14,8 @@ public class Main {
         String file;
         if (args.length <= 0) {
             System.out.println("Nebyl vybrán žádný soubor. Vybírám defaultní");
-            file = "C:\\Users\\user\\Documents\\NetBeansProjects\\LexicalAnalysis\\test.txt";
+            System.out.println("============================================");
+            file = System.getProperty("user.dir") + "\\test.txt";
         } else{
             file = args[0];
         }
