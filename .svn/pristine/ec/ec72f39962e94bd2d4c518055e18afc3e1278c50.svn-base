@@ -1,0 +1,8 @@
+begin
+
+a,b=100;
+if:
+    output="reallylooooooooooooooooooooooongstring";
+    0xff
+    0x18
+end;

@@ -1,0 +1,7 @@
+0000000000000000000000000000000000000000 04e74c27fc15d732acacc31464ba31d2291e8326 Tomáš Vondra <tomas.vondra@unicornsystems.eu> 1540243534 +0200	commit (initial): Added white char to SeparatorEnum
+04e74c27fc15d732acacc31464ba31d2291e8326 900e62ac7b88c15b889cf631e24c0050dd299bd7 Tomáš Vondra <tomas.vondra@unicornsystems.eu> 1540574954 +0200	commit: Added logic via status
+900e62ac7b88c15b889cf631e24c0050dd299bd7 c5fbe8692953895f96f6a0d8482db2208824c2a6 Tomáš Vondra <tomas.vondra@unicornsystems.eu> 1540661423 +0200	commit: Added tests and implement of reader interface
+c5fbe8692953895f96f6a0d8482db2208824c2a6 2425b5b5bbaf350d9802ffc8b5565e1eeb53c8e9 Tomáš Vondra <tomas.vondra@unicornsystems.eu> 1540821401 +0100	commit: Completing tests, new algoritm, support of selecting file
+2425b5b5bbaf350d9802ffc8b5565e1eeb53c8e9 86aa42d16cb0d60253d905be512749ab67582765 Tomáš Vondra <tomas.vondra@unicornsystems.eu> 1540831976 +0100	commit: Adjustmens
+86aa42d16cb0d60253d905be512749ab67582765 bf494ff80909580c954f68319806b80536e6e8f3 Tomáš Vondra <tomas.vondra@unicornsystems.eu> 1540833975 +0100	commit: Fixing folder path
+bf494ff80909580c954f68319806b80536e6e8f3 e9fd6470a9377cf00ffe7b1689fc61fbe6f8e0ec Tomáš Vondra <tomas.vondra@unicornsystems.eu> 1540835286 +0100	commit: Fixing netbeans bug, refactoring
